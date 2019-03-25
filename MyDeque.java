@@ -1,4 +1,5 @@
 import java.util.NoSuchElementException;
+import java.lang.NullPointerException;
 public class MyDeque<E>{
   private E[] data;
   private int size, start, end;
@@ -53,38 +54,44 @@ public class MyDeque<E>{
     tbr+="}";
     return tbr;
   }
-  public void addFirst(E element){
+  public void addFirst(E element)throws NullPointerException{
+    if(element == null)throw new NullPointerException();
     if(size==data.length)resize();
     int a = actualIndex(-1);
     data[a]=element;
     start=a;
     size++;
    }
-  public void addLast(E element){
+  public void addLast(E element)throws NullPointerException{
+    if(element == null)throw new NullPointerException();
     if(size==data.length)resize();
     int a = actualIndex(size);
     data[a]=element;
     end=a;
     size++;
   }
-  public E removeFirst(){
+  public E removeFirst() throws NoSuchElementException{
+    if(size==0) throw new NoSuchElementException();
     E tbr = data[start];
     data[start]=null;
     start=actualIndex(1);
     size--;
     return tbr;
   }
-  public E removeLast(){
+  public E removeLast()throws NoSuchElementException{
+    if(size==0) throw new NoSuchElementException();
     final E tbr = data[end];
     data[end]=null;
     end=actualIndex(size-2);
     size--;
     return tbr;
    }
-  public E getFirst(){
+  public E getFirst()throws NoSuchElementException{
+    if(size==0) throw new NoSuchElementException();
     return data[start];
    }
-  public E getLast(){
+  public E getLast()throws NoSuchElementException{
+    if(size==0) throw new NoSuchElementException();
     return data[end];
    }
   @SuppressWarnings("unchecked")
