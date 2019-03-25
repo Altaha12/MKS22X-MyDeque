@@ -1,18 +1,18 @@
+import java.util.NoSuchElementException;
 public class MyDeque<E>{
   private E[] data;
   private int size, start, end;
   //slots after start exclusive -1 start 1
   private int actualIndex(int slots){
-    int start1 = start;
-    for(int i = 0; i<slots;i++){
-      if(start1<data.length-1)start1++;
-      else start1=0;
-    }
-    for(int i = 0; i>slots;i--){
-      if(start1>0)start1--;
-      else start1=data.length-1;
-    }
-    return start1;
+    int  x;
+    if(slots>=0){
+      x=(start + slots)%data.length;}
+    else{
+      x=slots%data.length+start;
+      if(x<0)
+        {x=data.length+x;}
+       }
+    return x;
   }
   @SuppressWarnings("unchecked")
   public MyDeque(){
@@ -74,26 +74,20 @@ public class MyDeque<E>{
     size--;
     return tbr;
   }
-  //public E removeLast(){ }
+  public E removeLast(){
+    final E tbr = data[end];
+    data[end]=null;
+    end=actualIndex(size-2);
+    size--;
+    return tbr;
+   }
   public E getFirst(){
     return data[start];
    }
-  //public E getLast(){ }
+  public E getLast(){
+    return data[end];
+   }
   @SuppressWarnings("unchecked")
   public static void main(String[] args) {
-    MyDeque test = new MyDeque();
-    System.out.println(test);
-    for(int i=0;i<50;i++){
-      if(i%2==0)test.addLast(i);
-      else test.addFirst(i);
-      System.out.println(test);
-    }
-    /*for(int i=0;i<50;i++){
-      System.out.println(test);
-      System.out.println(test.removeFirst());
-    }
-    System.out.println(test);*/
-
-
   }
 }
