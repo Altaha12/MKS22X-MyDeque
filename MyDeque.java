@@ -1,15 +1,18 @@
 public class MyDeque<E>{
   private E[] data;
   private int size, start, end;
-
+  //slots after start exclusive -1 start 1
   private int actualIndex(int slots){
-    if(slots>0){
-      if(slots+start<data.length)return slots+start;
-      if(slots+start>=data.length)return data.length-slots-start;}
-    if(slots<0){
-      if(slots+start>=0)return slots+start;
-      if(slots+start<0)return data.length+(start+slots);}
-    return 0;
+    int start1 = start;
+    for(int i = 0; i<slots;i++){
+      if(start1<data.length-1)start1++;
+      else start1=0;
+    }
+    for(int i = 0; i>slots;i--){
+      if(start1>0)start1--;
+      else start1=data.length-1;
+    }
+    return start1;
   }
   @SuppressWarnings("unchecked")
   public MyDeque(){
@@ -30,10 +33,11 @@ public class MyDeque<E>{
   }
   @SuppressWarnings("unchecked")
   private void resize(){
-    E[] newData = (E[])new Object[data.length*10];
-    int index = start;
-    for(int i = 0; i<=size;i++){
-      newData[i]=data[actualIndex(i)];
+    E[] newData = (E[])new Object[data.length*2];
+    int slots = 0;
+    while(slots<size){
+      newData[slots]=data[actualIndex(slots)];
+      slots++;
     }
     start = 0;
     end = size;
@@ -41,21 +45,20 @@ public class MyDeque<E>{
   }
   public String toString(){
     String tbr = "{";
-    for(int i =start;i<end;i++)tbr+=data[i]+" ";
+    int slots =0;
+    while(slots<size){
+      tbr+=data[actualIndex(slots)]+ " ";
+      slots++;
+    }
     tbr+="}";
     return tbr;
   }
   public void addFirst(E element){
-    int trueIndex = actualIndex(-1);
-    if(trueIndex!=end){
-      data[trueIndex]=element;
-      start=trueIndex;
-      size+=1;
-    }
-    else{
-      resize();
-      addFirst(element);
-    }
+    if(size==data.length)resize();
+    int a = actualIndex(-1);
+    data[a]=element;
+    start=a;
+    size++;
    }
   public void addLast(E element){
     int trueIndex = actualIndex(size+1);
@@ -68,15 +71,22 @@ public class MyDeque<E>{
       resize();
       addFirst(element);
     }
-   }
+  }
   //public E removeFirst(){ }
   //public E removeLast(){ }
   //public E getFirst(){ }
   //public E getLast(){ }
+  @SuppressWarnings("unchecked")
   public static void main(String[] args) {
-    MyDeque first = new MyDeque();
-    System.out.println(first);
-    MyDeque secnd = new MyDeque(20);
-    System.out.println(secnd);
+    MyDeque test = new MyDeque();
+    System.out.println(test);
+    for(int i=0;i<100;i++){
+      test.addFirst(i);
+      System.out.println(test);
+      System.out.println(test.data[test.start]);
+      System.out.println(test.size);
+    }
+
+
   }
 }
