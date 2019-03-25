@@ -14,18 +14,6 @@ public class MyDeque<E>{
     }
     return start1;
   }
-  private int actualIndex1(int slots){
-    int start2 = end;
-    for(int i = 0; i<slots;i++){
-      if(start2<data.length-1)start2++;
-      else start2=0;
-    }
-    for(int i = 0; i>slots;i--){
-      if(start2>0)start2--;
-      else start2=data.length-1;
-    }
-    return start2;
-  }
   @SuppressWarnings("unchecked")
   public MyDeque(){
     data = (E[])new Object[10];
@@ -74,7 +62,7 @@ public class MyDeque<E>{
    }
   public void addLast(E element){
     if(size==data.length)resize();
-    int a = actualIndex1(1);
+    int a = actualIndex(size);
     data[a]=element;
     end=a;
     size++;
@@ -96,14 +84,15 @@ public class MyDeque<E>{
     MyDeque test = new MyDeque();
     System.out.println(test);
     for(int i=0;i<50;i++){
-      test.addFirst(i);
+      if(i%2==0)test.addLast(i);
+      else test.addFirst(i);
       System.out.println(test);
     }
-    for(int i=0;i<50;i++){
+    /*for(int i=0;i<50;i++){
       System.out.println(test);
       System.out.println(test.removeFirst());
     }
-    System.out.println(test);
+    System.out.println(test);*/
 
 
   }
