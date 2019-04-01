@@ -10,7 +10,8 @@ public class Calculator{
         return false;}
     }
     @SuppressWarnings("unchecked")
-    public static void next(String given, int index){
+    public static double eval(String given){
+      int index=0;
       String tbr ="";
       MyDeque test = new MyDeque();
       while(index<given.length()){
@@ -20,28 +21,28 @@ public class Calculator{
         }
         if(isdouble(tbr)){
           test.addFirst(Double.parseDouble(tbr));
-          System.out.println(test);
         }
         else if(tbr!=" "){
           //casting objects returned by MyDeque
           Double second = (Double)test.removeFirst();
           Double first = (Double)test.removeFirst();
-          System.out.println(tbr);
-          if(tbr.equals("+")){test.addFirst(first+second); System.out.println(second+first);}
+          if(tbr.equals("+")){test.addFirst(first+second);}
           if(tbr.equals("-")){test.addFirst(first-second);}
           if(tbr.equals("*")){test.addFirst(first*second);}
           if(tbr.equals("/")){test.addFirst(first/second);}
           if(tbr.equals("%")){test.addFirst(first%second);}
-          System.out.println(test);
         }
         tbr ="";
         index++;
       }
-      System.out.print(test);
+      double ss = (Double)test.removeFirst();
+      return ss;
     }
-    //public static double eval(String s){}
     public static void main(String[] args) {
-      String  s = "8 2 + 99 9 - * 2 + 9 -";
-      next(s,0);
+      System.out.println(eval("10 2.0 +"));
+      System.out.println(eval("11 3 - 4 + 2.5 *") );
+      System.out.println(eval("8 2 + 99 9 - * 2 + 9 -"));
+      System.out.println(eval("1 2 3 4 5 + * - -"));
+
     }
 }
