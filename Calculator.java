@@ -9,20 +9,35 @@ public class Calculator{
       catch (NumberFormatException e) {
         return false;}
     }
+    @SuppressWarnings("unchecked")
     public static void next(String given, int index){
       String tbr ="";
+      MyDeque test = new MyDeque();
       while(index<given.length()){
-      while(index<given.length() && given.charAt(index)!=' '){
-        tbr+=given.charAt(index);
+        while(index<given.length() && given.charAt(index)!=' '){
+          tbr+=given.charAt(index);
+          index++;
+        }
+        if(isdouble(tbr)){
+          test.addFirst(Double.parseDouble(tbr));
+          System.out.println(test);
+        }
+        else if(tbr!=" "){
+          //casting objects returned by MyDeque
+          Double second = (Double)test.removeFirst();
+          Double first = (Double)test.removeFirst();
+          System.out.println(tbr);
+          if(tbr.equals("+")){test.addFirst(first+second); System.out.println(second+first);}
+          if(tbr.equals("-")){test.addFirst(first-second);}
+          if(tbr.equals("*")){test.addFirst(first*second);}
+          if(tbr.equals("/")){test.addFirst(first/second);}
+          if(tbr.equals("%")){test.addFirst(first%second);}
+          System.out.println(test);
+        }
+        tbr ="";
         index++;
       }
-      if(isdouble(tbr)){
-        System.out.println(tbr+ " This is a number");
-      }
-      else{System.out.println(tbr +" This is not a number");}
-      tbr ="";
-      index++;
-    }
+      System.out.print(test);
     }
     //public static double eval(String s){}
     public static void main(String[] args) {
